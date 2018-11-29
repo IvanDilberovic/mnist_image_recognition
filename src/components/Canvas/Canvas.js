@@ -1,66 +1,138 @@
 import React, { Component } from "react";
-import Konva from "konva";
-import { render } from "react-dom";
-import { Stage, Layer, Line, Text } from "react-konva";
-import './Canvas.css'
+import "./Canvas.css";
+import "tachyons";
 
-class Canvas extends React.Component {
-  state = {
-    lines: []
-  };
+let clickX = [];
+let clickY = [];
+let clickDrag = [];
+let paint;
 
-  handleMouseDown = () => {
-    this._drawing = true;
-    // add line
-    this.setState({
-      lines: [...this.state.lines, []]
-    });
-  };
+class Canvas extends Component {
+  constructor(props) {
+    super(props);
 
-  handleMouseMove = e => {
-    // no drawing - skipping
-    if (!this._drawing) {
-      return;
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleOnSubmitImage = this.handleOnSubmitImage.bind(this);
+    this.handleOnSubmitClear = this.handleOnSubmitClear.bind(this);
+  }
+
+  addClick(x, y, dragging) {
+    clickX.push(x);
+    clickY.push(y);
+    clickDrag.push(dragging);
+  }
+
+  redraw() {
+    const canvas = this.refs.canvas;
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.strokeStyle = "#000000";
+    context.lineJoin = "round";
+    context.lineWidth = 10;
+
+    for (var i = 0; i < clickX.length; i++) {
+      context.beginPath();
+      if (clickDrag[i] && i) {
+        context.moveTo(clickX[i - 1], clickY[i - 1]);
+      } else {
+        context.moveTo(clickX[i] - 1, clickY[i]);
+      }
+      context.lineTo(clickX[i], clickY[i]);
+      context.closePath();
+      context.stroke();
+
+      this.forceUpdate();
+      //this.setState({ key: Math.random() });
     }
-    const stage = this.stageRef.getStage();
-    const point = stage.getPointerPosition();
-    const { lines } = this.state;
+  }
 
-    let lastLine = lines[lines.length - 1];
-    // add point
-    lastLine = lastLine.concat([point.x, point.y]);
+  handleMouseDown(e) {
+    const canvas = this.refs.canvas;
+    let mouseX = e.pageX - canvas.offsetLeft;
+    let mouseY = e.pageY - canvas.offsetTop;
 
-    // replace last
-    lines.splice(lines.length - 1, 1, lastLine);
-    this.setState({
-      lines: lines.concat()
-    });
-  };
+    paint = true;
 
-  handleMouseUp = () => {
-    this._drawing = false;
-  };
-  handleExportClick = () => {
-    console.log(this.stageRef.getStage().toDataURL());
-  };
+    this.addClick(mouseX, mouseY);
+    this.redraw();
+
+    //console.log("Mouse is down", mouseX, mouseY, paint);
+  }
+
+  handleMouseMove(e) {
+    if (paint) {
+      const canvas = this.refs.canvas;
+      let mouseX = e.pageX - canvas.offsetLeft;
+      let mouseY = e.pageY - canvas.offsetTop;
+
+      this.addClick(mouseX, mouseY, true);
+      this.redraw();
+
+      //console.log("Mouse is moving", mouseX, mouseY, paint);
+    }
+  }
+
+  handleMouseUp() {
+    paint = false;
+  }
+
+  handleMouseLeave() {
+    paint = false;
+  }
+
+  componentDidMount() {
+    const canvas = this.refs.canvas;
+    canvas.setAttribute("width", 200);
+    canvas.setAttribute("height", 200);
+    canvas.style.backgroundColor = "white"; //bio je white
+    canvas.style.border = "2px solid";
+    canvas.style.margin = "10px";
+    canvas.style.marginLeft = "auto";
+    canvas.style.marginRight = "auto";
+    canvas.style.display = "block";
+    const context = canvas.getContext("2d");
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  handleOnSubmitImage() {
+    const canvas = this.refs.canvas;
+    const image = canvas.toDataURL();
+
+    console.log(image);
+  }
+
+  handleOnSubmitClear() {
+    const canvas = this.refs.canvas;
+    const context = canvas.getContext("2d");
+
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.beginPath();
+    clickX = [];
+    clickY = [];
+    clickDrag = [];
+  }
+
   render() {
     return (
-      <div className='mainCanvasDiv'> 
-        <Stage
-          id='canvasID'
-          width={150}
-          height={150}
-          onContentMousedown={this.handleMouseDown}
-          onContentMousemove={this.handleMouseMove}
-          onContentMouseup={this.handleMouseUp}          
-          ref={node => { this.stageRef = node; }}>
-          <Layer>            
-            {this.state.lines.map((line, i) => (
-              <Line key={i} points={line} stroke="black" />
-            ))}
-          </Layer>
-        </Stage>
-        <button style={{ position: "absolute", top: "500" }} onClick={this.handleExportClick}>Send image to network</button>
+      <div>
+        <canvas
+          ref="canvas"
+          //key={this.state.key}
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          onMouseUp={this.handleMouseUp}
+          onMouseLeave={this.handleMouseLeave}
+        />
+        <input
+          type="submit"
+          value="SUBMIT"
+          onClick={this.handleOnSubmitImage}
+        />
+        <input type="submit" value="CLEAR" onClick={this.handleOnSubmitClear} />
       </div>
     );
   }
