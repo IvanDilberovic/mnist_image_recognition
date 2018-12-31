@@ -116,6 +116,7 @@ class App extends Component {
     return (
       <div className="App">
         <Logo />
+        <h2>MNIST image recognition</h2>
         <Canvas />
         <Particles className="particles" params={particleOptions} />{" "}
       </div>

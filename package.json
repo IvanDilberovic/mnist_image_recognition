@@ -1,31 +1,37 @@
 {
-  "name": "mnist_image_recognition",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "immutable": "^4.0.0-rc.12",
-    "konva": "^2.5.1",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-konva": "^16.6.31",
-    "react-particles-js": "^2.4.2",
-    "react-scripts": "2.1.1",
-    "react-tilt": "^0.1.4",
-    "tachyons": "^4.11.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "name": "mnist_image_recognition",
+    "version": "0.1.0",
+    "private": true,
+    "proxy": "http://localhost:5000",
+    "dependencies": {
+        "@material-ui/core": "^3.6.2",
+        "immutable": "^4.0.0-rc.12",
+        "konva": "^2.5.1",
+        "material-table": "^1.6.0",
+        "react": "^16.6.3",
+        "react-dom": "^16.6.3",
+        "react-image-gallery": "^0.8.12",
+        "react-konva": "^16.6.31",
+        "react-particles-js": "^2.4.2",
+        "react-scripts": "2.1.1",
+        "react-spinners": "^0.4.8",
+        "react-table-material": "^0.1.0",
+        "react-tilt": "^0.1.4",
+        "tachyons": "^4.11.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
 }
