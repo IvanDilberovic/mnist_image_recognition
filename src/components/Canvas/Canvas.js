@@ -3,6 +3,7 @@ import "./Canvas.css";
 import "tachyons";
 import TableComponent from "../Table/TableComponent";
 import ImageGalleryComponent from "../ImageGallery/ImageGalleryComponent";
+import Loader from "../Loader/Loader";
 
 let clickX = [];
 let clickY = [];
@@ -20,7 +21,10 @@ class Canvas extends Component {
       layers: [],
       predictions: [],
       layerImages: [],
-      showResults: false
+      showResults: false,
+      loading: false,
+      showTableResults: false,
+      showImageResults: false
     };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -43,7 +47,7 @@ class Canvas extends Component {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.strokeStyle = "black";
     context.lineJoin = "round";
-    context.lineWidth = 15;
+    context.lineWidth = 10;
 
     for (var i = 0; i < clickX.length; i++) {
       context.beginPath();
@@ -120,6 +124,8 @@ class Canvas extends Component {
   }
 
   handleOnSubmitImage() {
+    this.setState({ loading: true });
+
     const canvas = this.refs.canvas;
     const context = canvas.getContext("2d");
 
@@ -176,31 +182,6 @@ class Canvas extends Component {
     small_image.src = image;
   }
 
-  getLayerImage(image) {
-    fetch("http://localhost:5000/api/GetLayerImage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        layer: this.state.layers[0],
-        slika: image
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState(prevState => ({
-          layerImages: [
-            ...prevState.layerImages,
-            {
-              description: data.images[0].name,
-              srcSet: "data:image/png;base64," + data.images[0].picture
-            }
-          ]
-        }));
-
-        this.getWeightImage();
-      });
-  }
-
   getLayerNames() {
     fetch("http://localhost:5000/api/GetLayerNames", {
       method: "GET",
@@ -218,7 +199,7 @@ class Canvas extends Component {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        slika: image
+        image: image
       })
     })
       .then(response => response.json())
@@ -226,6 +207,83 @@ class Canvas extends Component {
         this.handleData(data);
         //Get first image from first layer after prediction
         this.getLayerImage(image);
+        //get all layer images
+        //this.getAllLayerImages(image);
+      });
+  }
+
+  handleData(data) {
+    for (let index = 0; index < 4; index++) {
+      const element = data.results[index];
+      rows.push(this.createData(element.key, element.value));
+    }
+
+    this.setState({ predictions: rows });
+  }
+
+  createData(key, value) {
+    id += 1;
+    return { id, key, value };
+  }
+
+  getLayerImage(image) {
+    fetch("http://localhost:5000/api/GetLayerImage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        layer: [
+          { layer: this.state.layers[0] }
+          /*{ layer: this.state.layers[1] }*/
+        ],
+        image: image
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        //Prepare image array
+        let img = [];
+        for (let index = 0; index < data.images.length; index++) {
+          const element = data.images[index];
+          img.push({
+            description: element.name,
+            srcSet: "data:image/png;base64," + element.picture
+          });
+        }
+
+        this.setState({ layerImages: img }, () => {
+          console.log("CALLBACK", this.state.layerImages);
+          this.setState({ showResults: true, loading: false });
+        });
+        //this.setState({ showResults: true, loading: false });
+      });
+  }
+
+  getAllLayerImages(image) {
+    fetch("http://localhost:5000/api/GetAllLayerImages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        image: image
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        //Prepare image array
+        let img = [];
+        for (let index = 0; index < data.images.length; index++) {
+          const element = data.images[index];
+          img.push({
+            description: element.name,
+            srcSet: "data:image/png;base64," + element.picture
+          });
+        }
+        this.setState(
+          prevState => ({
+            layerImages: [...prevState.layerImages, img]
+          }),
+          () => console.log(this.state.layerImages)
+        );
+        this.setState({ showResults: true, showImageResults: true });
       });
   }
 
@@ -236,31 +294,8 @@ class Canvas extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState(prevState => ({
-          layerImages: [
-            ...prevState.layerImages,
-            {
-              description: data.images[0].name,
-              srcSet: "data:image/png;base64," + data.images[0].picture
-            }
-          ]
-        }));
-        this.setState({ showResults: true });
+        console.log(data.images);
       });
-  }
-
-  createData(key, value) {
-    id += 1;
-    return { id, key, value };
-  }
-
-  handleData(data) {
-    for (let index = 0; index < 4; index++) {
-      const element = data.results[index];
-      rows.push(this.createData(element.key, element.value));
-    }
-
-    this.setState({ predictions: rows });
   }
 
   handleOnSubmitClear() {
@@ -286,11 +321,14 @@ class Canvas extends Component {
     clickDrag = [];
     rows = [];
 
-    this.setState({ showResults: false });
-
-    //this.forceUpdate();
-
-    //console.log(this.state);
+    this.setState({
+      image: "",
+      layers: [],
+      predictions: [],
+      layerImages: [],
+      showResults: false,
+      loading: false
+    });
   }
 
   render() {
@@ -313,7 +351,7 @@ class Canvas extends Component {
         <hr />
         {this.state.showResults ? (
           <div>
-            <TableComponent rows={rows} />
+            <TableComponent rows={this.state.predictions} />
             <hr />
             <ImageGalleryComponent
               images={this.state.layerImages}
@@ -321,7 +359,9 @@ class Canvas extends Component {
               drawnImage={this.state.image}
             />
           </div>
-        ) : null}
+        ) : (
+          <Loader loading={this.state.loading} />
+        )}
       </div>
     );
   }

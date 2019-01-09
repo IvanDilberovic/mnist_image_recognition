@@ -10,7 +10,7 @@ class TableComponent extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <table className="table-fill">
           <thead>
             <tr>
