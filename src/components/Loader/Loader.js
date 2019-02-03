@@ -10,7 +10,9 @@ class Loader extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: this.props.loading });
+    this.setState({
+      loading: this.props.loading
+    });
   }
 
   render() {
@@ -20,7 +22,7 @@ class Loader extends Component {
           <div className="inner one" />
           <div className="inner two" />
           <div className="inner three" />
-          <h4>Loading....</h4>
+          <h4> Loading.... </h4>
         </div>
       </div>
     ) : null;

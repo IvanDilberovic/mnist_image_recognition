@@ -4,6 +4,8 @@ import "./ImageGalleryComponent.css";
 import Loader from "../Loader/Loader";
 import "react-image-gallery/styles/css/image-gallery.css";
 
+const URL = "https://imagerecognitionapi.azurewebsites.net";
+
 class ImageGalleryComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ class ImageGalleryComponent extends React.Component {
 
   getLayerImage(image, layer) {
     this.setState({ loading: true });
-    fetch("http://localhost:5000/api/GetLayerImage", {
+    fetch(URL + "/api/GetLayerImage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

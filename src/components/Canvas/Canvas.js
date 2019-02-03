@@ -11,6 +11,7 @@ let clickDrag = [];
 let paint;
 let id = 0;
 let rows = [];
+const URL = "https://imagerecognitionapi.azurewebsites.net";
 
 class Canvas extends Component {
   constructor(props) {
@@ -157,9 +158,7 @@ class Canvas extends Component {
     //save the drawn image in the state
     this.setState({ image: image });
     //get all layer names
-    this.getLayerNames();
-    //send image to network for prediction
-    this.sendToNetwork(image);
+    this.getLayerNames(image);
 
     destContext.clearRect(0, 0, context.canvas.width, context.canvas.height);
     destContext.beginPath();
@@ -182,20 +181,23 @@ class Canvas extends Component {
     small_image.src = image;
   }
 
-  getLayerNames() {
-    fetch("http://localhost:5000/api/GetLayerNames", {
+  getLayerNames(image) {
+    fetch(URL + "/api/GetLayerNames", {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     })
       .then(response => response.json())
       .then(data => {
-        //console.log("Layers", data.results);
+        console.log("Layers", data.results);
         this.setState({ layers: data.results });
+        //send image to network for prediction
+        this.sendToNetwork(image);
       });
   }
 
   sendToNetwork(image) {
-    fetch("http://localhost:5000/api/GetPrediction", {
+    console.log("DATA SENT -> ", JSON.stringify({ image: image }));
+    fetch(URL + "/api/GetPrediction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -204,6 +206,7 @@ class Canvas extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log("DATA RECEIVED -> ", data);
         this.handleData(data);
         //Get first image from first layer after prediction
         this.getLayerImage(image);
@@ -227,7 +230,7 @@ class Canvas extends Component {
   }
 
   getLayerImage(image) {
-    fetch("http://localhost:5000/api/GetLayerImage", {
+    fetch(URL + "/api/GetLayerImage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -259,7 +262,7 @@ class Canvas extends Component {
   }
 
   getAllLayerImages(image) {
-    fetch("http://localhost:5000/api/GetAllLayerImages", {
+    fetch(URL + "/api/GetAllLayerImages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -288,7 +291,7 @@ class Canvas extends Component {
   }
 
   getWeightImage() {
-    fetch("http://localhost:5000/api/GetWeightImage", {
+    fetch(URL + "/api/GetWeightImage", {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     })
