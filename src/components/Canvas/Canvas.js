@@ -11,7 +11,7 @@ let clickDrag = [];
 let paint;
 let id = 0;
 let rows = [];
-const URL = "https://imagerecognitionapi.azurewebsites.net";
+const URL = "https://image-recognition-api.herokuapp.com";
 
 class Canvas extends Component {
   constructor(props) {
@@ -125,7 +125,9 @@ class Canvas extends Component {
   }
 
   handleOnSubmitImage() {
-    this.setState({ loading: true });
+    this.setState({
+      loading: true
+    });
 
     const canvas = this.refs.canvas;
     const context = canvas.getContext("2d");
@@ -156,7 +158,9 @@ class Canvas extends Component {
     const image = destCanvas.toDataURL("image/png");
 
     //save the drawn image in the state
-    this.setState({ image: image });
+    this.setState({
+      image: image
+    });
     //get all layer names
     this.getLayerNames(image);
 
@@ -184,22 +188,33 @@ class Canvas extends Component {
   getLayerNames(image) {
     fetch(URL + "/api/GetLayerNames", {
       method: "GET",
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
       .then(response => response.json())
       .then(data => {
         console.log("Layers", data.results);
-        this.setState({ layers: data.results });
+        this.setState({
+          layers: data.results
+        });
         //send image to network for prediction
         this.sendToNetwork(image);
       });
   }
 
   sendToNetwork(image) {
-    console.log("DATA SENT -> ", JSON.stringify({ image: image }));
+    console.log(
+      "DATA SENT -> ",
+      JSON.stringify({
+        image: image
+      })
+    );
     fetch(URL + "/api/GetPrediction", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         image: image
       })
@@ -221,21 +236,31 @@ class Canvas extends Component {
       rows.push(this.createData(element.key, element.value));
     }
 
-    this.setState({ predictions: rows });
+    this.setState({
+      predictions: rows
+    });
   }
 
   createData(key, value) {
     id += 1;
-    return { id, key, value };
+    return {
+      id,
+      key,
+      value
+    };
   }
 
   getLayerImage(image) {
     fetch(URL + "/api/GetLayerImage", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         layer: [
-          { layer: this.state.layers[0] }
+          {
+            layer: this.state.layers[0]
+          }
           /*{ layer: this.state.layers[1] }*/
         ],
         image: image
@@ -253,10 +278,18 @@ class Canvas extends Component {
           });
         }
 
-        this.setState({ layerImages: img }, () => {
-          console.log("CALLBACK", this.state.layerImages);
-          this.setState({ showResults: true, loading: false });
-        });
+        this.setState(
+          {
+            layerImages: img
+          },
+          () => {
+            console.log("CALLBACK", this.state.layerImages);
+            this.setState({
+              showResults: true,
+              loading: false
+            });
+          }
+        );
         //this.setState({ showResults: true, loading: false });
       });
   }
@@ -264,7 +297,9 @@ class Canvas extends Component {
   getAllLayerImages(image) {
     fetch(URL + "/api/GetAllLayerImages", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         image: image
       })
@@ -286,14 +321,19 @@ class Canvas extends Component {
           }),
           () => console.log(this.state.layerImages)
         );
-        this.setState({ showResults: true, showImageResults: true });
+        this.setState({
+          showResults: true,
+          showImageResults: true
+        });
       });
   }
 
   getWeightImage() {
     fetch(URL + "/api/GetWeightImage", {
       method: "GET",
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
       .then(response => response.json())
       .then(data => {

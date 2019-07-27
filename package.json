@@ -2,9 +2,11 @@
     "name": "mnist_image_recognition",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:5000",
+    "proxy": "http://localhost:3000",
+    "homepage": "https://ivandilberovic.github.io/mnist_image_recognition",
     "dependencies": {
         "@material-ui/core": "^3.6.2",
+        "gh-pages": "^2.0.1",
         "immutable": "^4.0.0-rc.12",
         "konva": "^2.5.1",
         "material-table": "^1.6.0",
@@ -23,7 +25,9 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": "react-app"

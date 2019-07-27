@@ -4,7 +4,7 @@ import "./ImageGalleryComponent.css";
 import Loader from "../Loader/Loader";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-const URL = "https://imagerecognitionapi.azurewebsites.net";
+const URL = "https://image-recognition-api.herokuapp.com";
 
 class ImageGalleryComponent extends React.Component {
   constructor(props) {
