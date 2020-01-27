@@ -156,7 +156,7 @@ class ImageGalleryComponent extends React.Component {
         <div>
           <div className="mySlides fade">
             <div className="text">{this.state.description}</div>
-            <img src={this.state.srcSet} style={{ width: "100%" }} alt="" />
+            <img src={this.state.srcSet} style={{ width: "80%" }} alt="" />
           </div>
           <button
             className="prev"

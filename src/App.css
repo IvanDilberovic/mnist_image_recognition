@@ -1,5 +1,9 @@
 .App {
-    text-align: center;
+    text-align: center;    
+}
+
+.Footer{
+    margin-top: 15%;
 }
 
 .particles canvas {

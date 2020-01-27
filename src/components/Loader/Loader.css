@@ -12,7 +12,7 @@ h4 {
 
 .loader {
     position: absolute;
-    top: calc(60% - 32px);
+    top: calc(65%);
     left: calc(50% - 32px);
     width: 64px;
     height: 64px;

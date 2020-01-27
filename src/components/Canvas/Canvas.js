@@ -351,12 +351,7 @@ class Canvas extends Component {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.beginPath();
 
-    destContext.clearRect(
-      0,
-      0,
-      destContext.canvas.width,
-      destContext.canvas.height
-    );
+    destContext.clearRect(0,0,destContext.canvas.width,destContext.canvas.height);
     destContext.beginPath();
 
     clickX = [];
@@ -384,14 +379,10 @@ class Canvas extends Component {
           onMouseUp={this.handleMouseUp}
           onMouseLeave={this.handleMouseLeave}
         />
-        <input
-          type="submit"
-          value="SUBMIT"
-          onClick={this.handleOnSubmitImage}
-        />
-        <input type="submit" value="CLEAR" onClick={this.handleOnSubmitClear} />
+        <input type="submit" value="SUBMIT" onClick={this.handleOnSubmitImage} className="w4 pa4 mv4 mr3 f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black outline-0"/>
+        <input type="submit" value="CLEAR" onClick={this.handleOnSubmitClear} className="w4 pa4 mv4 ml3 f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black outline-0"/>
         <canvas ref="canvasNetwork" />
-        <hr />
+        
         {this.state.showResults ? (
           <div>
             <TableComponent rows={this.state.predictions} />
