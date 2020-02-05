@@ -2,9 +2,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="w-100 bg-black-80 Footer">
+    <div className="bg-black-80 parent w-100">
       <footer className="tc-l">
-        <div className="w-100 bg-black-80 mt7">
+        <div className="bg-black-80 w-100">
           <a
             className="link white-60 bg-transparent hover-white inline-flex items-center ma2 tc br2"
             href="https://www.facebook.com/Dilberovic.Ivan"

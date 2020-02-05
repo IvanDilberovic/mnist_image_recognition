@@ -2,9 +2,12 @@
     text-align: center;    
 }
 
-.Footer{
-    margin-top: 15%;
-}
+.parent {
+    position: fixed;;
+    bottom:0;  
+  }
+
+  
 
 .particles canvas {
     display: block;

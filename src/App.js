@@ -3,7 +3,7 @@ import "./App.css";
 import Particles from "react-particles-js";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./components/Footer/Footer";
-import ParticleOptions from "../misc/ParticleOptions";
+import ParticleOptions from "./misc/ParticleOptions";
 
 class App extends Component {
   render() {
