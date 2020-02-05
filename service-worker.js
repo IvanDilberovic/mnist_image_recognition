@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/mnist_image_recognition/precache-manifest.80e7b6c5ace4a3c006f7764db4257ff8.js"
+  "/mnist_image_recognition/precache-manifest.ee8892a3e9ef8361e76df71382a6100c.js"
 );
 
 workbox.clientsClaim();
