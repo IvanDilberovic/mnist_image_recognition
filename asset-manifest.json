@@ -1,7 +1,7 @@
 {
   "main.css": "/mnist_image_recognition/static/css/main.b12fdba4.chunk.css",
-  "main.js": "/mnist_image_recognition/static/js/main.49d0be5d.chunk.js",
-  "main.js.map": "/mnist_image_recognition/static/js/main.49d0be5d.chunk.js.map",
+  "main.js": "/mnist_image_recognition/static/js/main.9095d3fc.chunk.js",
+  "main.js.map": "/mnist_image_recognition/static/js/main.9095d3fc.chunk.js.map",
   "static/css/1.24f5420f.chunk.css": "/mnist_image_recognition/static/css/1.24f5420f.chunk.css",
   "static/js/1.7ade2f8a.chunk.js": "/mnist_image_recognition/static/js/1.7ade2f8a.chunk.js",
   "static/js/1.7ade2f8a.chunk.js.map": "/mnist_image_recognition/static/js/1.7ade2f8a.chunk.js.map",
@@ -12,6 +12,6 @@
   "static/css/main.b12fdba4.chunk.css.map": "/mnist_image_recognition/static/css/main.b12fdba4.chunk.css.map",
   "static/css/1.24f5420f.chunk.css.map": "/mnist_image_recognition/static/css/1.24f5420f.chunk.css.map",
   "index.html": "/mnist_image_recognition/index.html",
-  "precache-manifest.ee8892a3e9ef8361e76df71382a6100c.js": "/mnist_image_recognition/precache-manifest.ee8892a3e9ef8361e76df71382a6100c.js",
+  "precache-manifest.ff6faecba2ea3fdf3231c2c870ab193b.js": "/mnist_image_recognition/precache-manifest.ff6faecba2ea3fdf3231c2c870ab193b.js",
   "service-worker.js": "/mnist_image_recognition/service-worker.js"
 }

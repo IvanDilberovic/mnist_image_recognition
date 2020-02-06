@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "49d0be5db164d1244372",
+    "revision": "9095d3fc1229030cdbed",
     "url": "/mnist_image_recognition/static/css/main.b12fdba4.chunk.css"
   },
   {
-    "revision": "49d0be5db164d1244372",
-    "url": "/mnist_image_recognition/static/js/main.49d0be5d.chunk.js"
+    "revision": "9095d3fc1229030cdbed",
+    "url": "/mnist_image_recognition/static/js/main.9095d3fc.chunk.js"
   },
   {
     "revision": "7ade2f8a39fa7121534e",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/mnist_image_recognition/static/media/mnist.ca39a88a.jpeg"
   },
   {
-    "revision": "b76a5b04cada05284852469c33b8e0f2",
+    "revision": "9bdb72a29044bc4ae74f0d6833887d40",
     "url": "/mnist_image_recognition/index.html"
   }
 ];
