@@ -152,7 +152,7 @@ class ImageGalleryComponent extends React.Component {
 
   render() {
     return (
-      <div className="slideshow-container">
+      <div className="slideshow-container pb6">
         <div>
           <div className="mySlides fade">
             <div className="text">{this.state.description}</div>

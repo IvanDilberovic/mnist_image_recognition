@@ -4,7 +4,7 @@ import "./About.css";
 class About extends Component {
   render() {
     return (
-      <div className="center">
+      <div className="center pb6">
         <article className="pa2 pa2-ns">
           <h1 className="f2">MNIST image recognition</h1>
           <img

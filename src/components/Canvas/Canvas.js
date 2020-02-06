@@ -376,7 +376,7 @@ class Canvas extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pb6">
         <h2>MNIST image recognition</h2>
         <h3>Please draw a number between 0 - 9</h3>
         <canvas
@@ -401,7 +401,7 @@ class Canvas extends Component {
         <canvas ref="canvasNetwork" />
 
         {this.state.showResults ? (
-          <div>
+          <div className="pb6">
             <TableComponent rows={this.state.predictions} />
             <hr />
             <ImageGalleryComponent
